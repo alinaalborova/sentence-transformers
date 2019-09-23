@@ -13126,6 +13126,7 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="k">import</span> <span class="n">DataLoader</span>
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -13133,19 +13134,13 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">joblib</span>
 <span class="kn">import</span> <span class="nn">faiss</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sentence_transformers</span> <span class="k">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">losses</span>
 <span class="kn">from</span> <span class="nn">sentence_transformers</span> <span class="k">import</span> <span class="n">SentencesDataset</span><span class="p">,</span> <span class="n">LoggingHandler</span><span class="p">,</span> <span class="n">SentenceTransformer</span>
 <span class="kn">from</span> <span class="nn">sentence_transformers.evaluation</span> <span class="k">import</span> <span class="n">EmbeddingSimilarityEvaluator</span>
 <span class="kn">from</span> <span class="nn">sentence_transformers.readers</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sentence_transformers.util</span> <span class="k">import</span> <span class="n">batch_to_device</span>
-
-
-<span class="c1">#### Just some code to print debug information to stdout</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
-                    <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">,</span>
-                    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
-                    <span class="n">handlers</span><span class="o">=</span><span class="p">[</span><span class="n">LoggingHandler</span><span class="p">()])</span>
-<span class="c1">#### /print debug information to stdout</span>
+<span class="kn">from</span> <span class="nn">sentence_transformers.readers.InputExample</span> <span class="k">import</span> <span class="n">InputExample</span>
 </pre></div>
 
     </div>
@@ -13168,6 +13163,24 @@ div#notebook {
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#### Just some code to print debug information to stdout</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">,</span>
+                    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+                    <span class="n">handlers</span><span class="o">=</span><span class="p">[</span><span class="n">LoggingHandler</span><span class="p">()])</span>
+<span class="c1">#### /print debug information to stdout</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -13499,10 +13512,10 @@ True
 
  
  
-<div id="d38728cc-8cd9-4ced-b557-e59a6bc05937"></div>
+<div id="ec75397e-f1bb-4428-8288-ddb6a086bbd0"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#d38728cc-8cd9-4ced-b557-e59a6bc05937');
+var element = $('#ec75397e-f1bb-4428-8288-ddb6a086bbd0');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "947ad56f92af451e8a54b72cda019ab7", "version_major": 2, "version_minor": 0}
@@ -13521,10 +13534,10 @@ var element = $('#d38728cc-8cd9-4ced-b557-e59a6bc05937');
 
  
  
-<div id="fc9dbd0c-9fcc-4284-92ed-d6712956bb4e"></div>
+<div id="c0deedc4-6438-4968-931d-9393e26a6458"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#fc9dbd0c-9fcc-4284-92ed-d6712956bb4e');
+var element = $('#c0deedc4-6438-4968-931d-9393e26a6458');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "e830377db82148c3a6184c08981c1456", "version_major": 2, "version_minor": 0}
@@ -16479,21 +16492,7 @@ Convert Evaluating:   3%|▎         | 3/87 [00:00&lt;00:03, 27.20it/s]</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">sentence_transformers.readers.InputExample</span> <span class="k">import</span> <span class="n">InputExample</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TatoebaReader</span><span class="p">:</span>
@@ -16508,6 +16507,8 @@ Convert Evaluating:   3%|▎         | 3/87 [00:00&lt;00:03, 27.20it/s]</pre>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()):</span>
                 <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">InputExample</span><span class="p">(</span><span class="n">guid</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">line</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>                
         <span class="k">return</span> <span class="n">examples</span>
+
+<span class="n">TATOEBA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../data/tatoeba/v1/&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16517,18 +16518,120 @@ Convert Evaluating:   3%|▎         | 3/87 [00:00&lt;00:03, 27.20it/s]</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">TATOEBA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../data/tatoeba/v1/&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_language_pair</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pair_name</span><span class="o">=</span><span class="s2">&quot;cmn-eng&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+    <span class="n">lang_1</span><span class="p">,</span> <span class="n">lang_2</span> <span class="o">=</span> <span class="n">pair_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="n">reader_1</span> <span class="o">=</span> <span class="n">TatoebaReader</span><span class="p">(</span><span class="n">TATOEBA_PATH</span> <span class="o">/</span> <span class="n">f</span><span class="s2">&quot;tatoeba.</span><span class="si">{pair_name}</span><span class="s2">.</span><span class="si">{lang_1}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ds_1</span> <span class="o">=</span> <span class="n">SentencesDataset</span><span class="p">(</span><span class="n">reader_1</span><span class="o">.</span><span class="n">get_examples</span><span class="p">(),</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">loader_1</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">ds_1</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> 
+        <span class="n">collate_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">smart_batching_collate</span><span class="p">)</span>
 
-<span class="n">tatoeba_engcmn_eng</span> <span class="o">=</span> <span class="n">TatoebaReader</span><span class="p">(</span><span class="n">TATOEBA_PATH</span> <span class="o">/</span> <span class="s2">&quot;tatoeba.cmn-eng.eng&quot;</span><span class="p">)</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">SentencesDataset</span><span class="p">(</span><span class="n">tatoeba_engchm_eng</span><span class="o">.</span><span class="n">get_examples</span><span class="p">(),</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
-<span class="n">tatoeba_engcmn_eng_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">smart_batching_collate</span><span class="p">)</span>
+    <span class="n">reader_2</span> <span class="o">=</span> <span class="n">TatoebaReader</span><span class="p">(</span><span class="n">TATOEBA_PATH</span> <span class="o">/</span> <span class="n">f</span><span class="s2">&quot;tatoeba.</span><span class="si">{pair_name}</span><span class="s2">.</span><span class="si">{lang_2}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ds_2</span> <span class="o">=</span> <span class="n">SentencesDataset</span><span class="p">(</span><span class="n">reader_2</span><span class="o">.</span><span class="n">get_examples</span><span class="p">(),</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">loader_2</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">ds_2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> 
+        <span class="n">collate_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">smart_batching_collate</span><span class="p">)</span>
+    
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">emb_1</span><span class="p">,</span> <span class="n">emb_2</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader_1</span><span class="p">:</span>
+            <span class="n">emb_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">(</span>
+                <span class="n">batch_to_device</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)[</span><span class="s1">&#39;sentence_embedding&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader_2</span><span class="p">:</span>
+            <span class="n">emb_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">(</span>
+                <span class="n">batch_to_device</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)[</span><span class="s1">&#39;sentence_embedding&#39;</span><span class="p">])</span>
+    <span class="n">emb_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">emb_1</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">emb_2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">emb_2</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    
+    <span class="n">idx_1</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">emb_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">faiss</span><span class="o">.</span><span class="n">normalize_L2</span><span class="p">(</span><span class="n">emb_1</span><span class="p">)</span>
+    <span class="n">idx_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">emb_1</span><span class="p">)</span>
+    <span class="n">idx_2</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">emb_2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">faiss</span><span class="o">.</span><span class="n">normalize_L2</span><span class="p">(</span><span class="n">emb_2</span><span class="p">)</span>
+    <span class="n">idx_2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">emb_2</span><span class="p">)</span>
+    
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span> <span class="n">idx_2</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">emb_1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+        <span class="n">lang_1</span><span class="p">,</span> <span class="n">lang_2</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">match</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">emb_1</span><span class="p">))),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">emb_1</span><span class="p">)</span>
+    <span class="p">))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span> <span class="n">idx_1</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">emb_2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+        <span class="n">lang_2</span><span class="p">,</span> <span class="n">lang_1</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">match</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">emb_2</span><span class="p">))),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">emb_2</span><span class="p">)</span>
+    <span class="p">))</span>
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
 
-<span class="n">tatoeba_engcmn_cmn</span> <span class="o">=</span> <span class="n">TatoebaReader</span><span class="p">(</span><span class="n">TATOEBA_PATH</span> <span class="o">/</span> <span class="s2">&quot;tatoeba.cmn-eng.cmn&quot;</span><span class="p">)</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">SentencesDataset</span><span class="p">(</span><span class="n">tatoeba_engcmn_cmn</span><span class="o">.</span><span class="n">get_examples</span><span class="p">(),</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
-<span class="n">tatoeba_engcmn_cmn_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">smart_batching_collate</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PAIRS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ita-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;spa-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;fra-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;deu-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;rus-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;jpn-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;cmn-eng&quot;</span><span class="p">,</span> <span class="s2">&quot;hin-eng&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fine-tuned">Fine-tuned<a class="anchor-link" href="#Fine-tuned">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="s1">&#39;output/training_nli_bert-2019-09-22_21-50-05&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">+=</span> <span class="n">evaluate_language_pair</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pair_name</span><span class="o">=</span><span class="n">pair</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">df_finetuned</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_finetuned</span>
 </pre></div>
 
     </div>
@@ -16541,211 +16644,151 @@ Convert Evaluating:   3%|▎         | 3/87 [00:00&lt;00:03, 27.20it/s]</pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[7]:</div>
 
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Convert dataset: 100%|██████████| 1000/1000 [00:00&lt;00:00, 9511.28it/s]
-Convert dataset: 100%|██████████| 1000/1000 [00:00&lt;00:00, 14028.43it/s]</pre>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>from</th>
+      <th>to</th>
+      <th>correct</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>ita</td>
+      <td>eng</td>
+      <td>498</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>eng</td>
+      <td>ita</td>
+      <td>516</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>spa</td>
+      <td>eng</td>
+      <td>532</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>eng</td>
+      <td>spa</td>
+      <td>554</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>fra</td>
+      <td>eng</td>
+      <td>511</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>eng</td>
+      <td>fra</td>
+      <td>508</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>deu</td>
+      <td>eng</td>
+      <td>513</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>eng</td>
+      <td>deu</td>
+      <td>499</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>rus</td>
+      <td>eng</td>
+      <td>498</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>eng</td>
+      <td>rus</td>
+      <td>488</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>jpn</td>
+      <td>eng</td>
+      <td>378</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>eng</td>
+      <td>jpn</td>
+      <td>369</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>cmn</td>
+      <td>eng</td>
+      <td>644</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>eng</td>
+      <td>cmn</td>
+      <td>597</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>hin</td>
+      <td>eng</td>
+      <td>95</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>eng</td>
+      <td>hin</td>
+      <td>126</td>
+      <td>1000</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2019-09-23 16:53:13 - Num sentences: 1000
-2019-09-23 16:53:13 - Sentences 0 longer than max_seqence_length: 0
-2019-09-23 16:53:13 - Num sentences: 1000
-2019-09-23 16:53:13 - Sentences 0 longer than max_seqence_length: 0
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">cmn_embeddings</span><span class="p">,</span> <span class="n">eng_embeddings</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">tatoeba_engcmn_cmn_loader</span><span class="p">:</span>
-        <span class="n">cmn_embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">(</span>
-            <span class="n">batch_to_device</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="p">)[</span><span class="s1">&#39;sentence_embedding&#39;</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">tatoeba_engcmn_eng_loader</span><span class="p">:</span>
-        <span class="n">eng_embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">(</span>
-            <span class="n">batch_to_device</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="p">)[</span><span class="s1">&#39;sentence_embedding&#39;</span><span class="p">])</span>
-<span class="n">cmn_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-<span class="n">eng_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 2.7 s, sys: 648 ms, total: 3.35 s
-Wall time: 3.35 s
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[76]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>1000</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cmn_idx</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">faiss</span><span class="o">.</span><span class="n">normalize_L2</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="p">)</span>
-<span class="n">cmn_idx</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="p">)</span>
-<span class="n">eng_idx</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">faiss</span><span class="o">.</span><span class="n">normalize_L2</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span>
-<span class="n">eng_idx</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">eng_to_cmn</span> <span class="o">=</span> <span class="n">cmn_idx</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">eng_embeddings</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">cmn_to_eng</span> <span class="o">=</span> <span class="n">eng_idx</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">cmn_embeddings</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">eng_to_cmn</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[88]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>597</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cmn_to_eng</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[89]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>644</pre>
 </div>
 
 </div>
@@ -16763,7 +16806,7 @@ Wall time: 3.35 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">word_embedding_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span><span class="s1">&#39;../models/bert-base-multilingual-cased/&#39;</span><span class="p">)</span>
@@ -16779,77 +16822,17 @@ Wall time: 3.35 s
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2019-09-23 17:16:32 - loading configuration file ../models/bert-base-multilingual-cased/config.json
-2019-09-23 17:16:32 - Model config {
-  &#34;attention_probs_dropout_prob&#34;: 0.1,
-  &#34;directionality&#34;: &#34;bidi&#34;,
-  &#34;finetuning_task&#34;: null,
-  &#34;hidden_act&#34;: &#34;gelu&#34;,
-  &#34;hidden_dropout_prob&#34;: 0.1,
-  &#34;hidden_size&#34;: 768,
-  &#34;initializer_range&#34;: 0.02,
-  &#34;intermediate_size&#34;: 3072,
-  &#34;layer_norm_eps&#34;: 1e-12,
-  &#34;max_position_embeddings&#34;: 512,
-  &#34;num_attention_heads&#34;: 12,
-  &#34;num_hidden_layers&#34;: 12,
-  &#34;num_labels&#34;: 2,
-  &#34;output_attentions&#34;: false,
-  &#34;output_hidden_states&#34;: false,
-  &#34;pooler_fc_size&#34;: 768,
-  &#34;pooler_num_attention_heads&#34;: 12,
-  &#34;pooler_num_fc_layers&#34;: 3,
-  &#34;pooler_size_per_head&#34;: 128,
-  &#34;pooler_type&#34;: &#34;first_token_transform&#34;,
-  &#34;torchscript&#34;: false,
-  &#34;type_vocab_size&#34;: 2,
-  &#34;vocab_size&#34;: 119547
-}
-
-2019-09-23 17:16:32 - loading weights file ../models/bert-base-multilingual-cased/pytorch_model.bin
-2019-09-23 17:16:35 - Model name &#39;../models/bert-base-multilingual-cased/&#39; not found in model shortcut name list (bert-base-uncased, bert-large-uncased, bert-base-cased, bert-large-cased, bert-base-multilingual-uncased, bert-base-multilingual-cased, bert-base-chinese, bert-base-german-cased, bert-large-uncased-whole-word-masking, bert-large-cased-whole-word-masking, bert-large-uncased-whole-word-masking-finetuned-squad, bert-large-cased-whole-word-masking-finetuned-squad, bert-base-cased-finetuned-mrpc). Assuming &#39;../models/bert-base-multilingual-cased/&#39; is a path or url to a directory containing tokenizer files.
-2019-09-23 17:16:35 - Didn&#39;t find file ../models/bert-base-multilingual-cased/added_tokens.json. We won&#39;t load it.
-2019-09-23 17:16:35 - Didn&#39;t find file ../models/bert-base-multilingual-cased/special_tokens_map.json. We won&#39;t load it.
-2019-09-23 17:16:35 - loading file ../models/bert-base-multilingual-cased/vocab.txt
-2019-09-23 17:16:35 - loading file None
-2019-09-23 17:16:35 - loading file None
-2019-09-23 17:16:35 - Use pytorch device: cuda
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
-<span class="n">cmn_embeddings</span><span class="p">,</span> <span class="n">eng_embeddings</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">tatoeba_engcmn_cmn_loader</span><span class="p">:</span>
-        <span class="n">cmn_embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">(</span>
-            <span class="n">batch_to_device</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="p">)[</span><span class="s1">&#39;sentence_embedding&#39;</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">tatoeba_engcmn_eng_loader</span><span class="p">:</span>
-        <span class="n">eng_embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">(</span>
-            <span class="n">batch_to_device</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="p">)[</span><span class="s1">&#39;sentence_embedding&#39;</span><span class="p">])</span>
-<span class="n">cmn_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-<span class="n">eng_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">+=</span> <span class="n">evaluate_language_pair</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pair_name</span><span class="o">=</span><span class="n">pair</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">df_baseline_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">])</span>
+<span class="n">df_baseline_mean</span>
 </pre></div>
 
     </div>
@@ -16862,14 +16845,153 @@ Wall time: 3.35 s
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 2.65 s, sys: 668 ms, total: 3.32 s
-Wall time: 3.32 s
-</pre>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>from</th>
+      <th>to</th>
+      <th>correct</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>ita</td>
+      <td>eng</td>
+      <td>500</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>eng</td>
+      <td>ita</td>
+      <td>383</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>spa</td>
+      <td>eng</td>
+      <td>521</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>eng</td>
+      <td>spa</td>
+      <td>477</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>fra</td>
+      <td>eng</td>
+      <td>482</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>eng</td>
+      <td>fra</td>
+      <td>385</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>deu</td>
+      <td>eng</td>
+      <td>488</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>eng</td>
+      <td>deu</td>
+      <td>478</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>rus</td>
+      <td>eng</td>
+      <td>430</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>eng</td>
+      <td>rus</td>
+      <td>415</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>jpn</td>
+      <td>eng</td>
+      <td>268</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>eng</td>
+      <td>jpn</td>
+      <td>290</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>cmn</td>
+      <td>eng</td>
+      <td>510</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>eng</td>
+      <td>cmn</td>
+      <td>522</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>hin</td>
+      <td>eng</td>
+      <td>84</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>eng</td>
+      <td>hin</td>
+      <td>113</td>
+      <td>1000</td>
+    </tr>
+  </tbody>
+</table>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -16878,17 +17000,16 @@ Wall time: 3.32 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cmn_idx</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">faiss</span><span class="o">.</span><span class="n">normalize_L2</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="p">)</span>
-<span class="n">cmn_idx</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cmn_embeddings</span><span class="p">)</span>
-<span class="n">eng_idx</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">faiss</span><span class="o">.</span><span class="n">normalize_L2</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span>
-<span class="n">eng_idx</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">eng_embeddings</span><span class="p">)</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">eng_to_cmn</span> <span class="o">=</span> <span class="n">cmn_idx</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">eng_embeddings</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">cmn_to_eng</span> <span class="o">=</span> <span class="n">eng_idx</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">cmn_embeddings</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word_embedding_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span><span class="s1">&#39;../models/bert-base-multilingual-cased/&#39;</span><span class="p">)</span>
+<span class="c1"># Apply mean pooling to get one fixed sized sentence vector</span>
+<span class="n">pooling_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Pooling</span><span class="p">(</span><span class="n">word_embedding_model</span><span class="o">.</span><span class="n">get_word_embedding_dimension</span><span class="p">(),</span>
+                               <span class="n">pooling_mode_mean_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">pooling_mode_cls_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                               <span class="n">pooling_mode_max_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="n">modules</span><span class="o">=</span><span class="p">[</span><span class="n">word_embedding_model</span><span class="p">,</span> <span class="n">pooling_model</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -16898,10 +17019,26 @@ Wall time: 3.32 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">eng_to_cmn</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">+=</span> <span class="n">evaluate_language_pair</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pair_name</span><span class="o">=</span><span class="n">pair</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">df_baseline_cls</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_baseline_cls</span>
 </pre></div>
 
     </div>
@@ -16914,13 +17051,151 @@ Wall time: 3.32 s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[94]:</div>
+    <div class="prompt output_prompt">Out[12]:</div>
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>522</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>from</th>
+      <th>to</th>
+      <th>correct</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>ita</td>
+      <td>eng</td>
+      <td>121</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>eng</td>
+      <td>ita</td>
+      <td>224</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>spa</td>
+      <td>eng</td>
+      <td>109</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>eng</td>
+      <td>spa</td>
+      <td>291</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>fra</td>
+      <td>eng</td>
+      <td>169</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>eng</td>
+      <td>fra</td>
+      <td>230</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>deu</td>
+      <td>eng</td>
+      <td>115</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>eng</td>
+      <td>deu</td>
+      <td>263</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>rus</td>
+      <td>eng</td>
+      <td>165</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>eng</td>
+      <td>rus</td>
+      <td>213</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>jpn</td>
+      <td>eng</td>
+      <td>85</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>eng</td>
+      <td>jpn</td>
+      <td>140</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>cmn</td>
+      <td>eng</td>
+      <td>84</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>eng</td>
+      <td>cmn</td>
+      <td>282</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>hin</td>
+      <td>eng</td>
+      <td>8</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>eng</td>
+      <td>hin</td>
+      <td>51</td>
+      <td>1000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
@@ -16931,10 +17206,45 @@ Wall time: 3.32 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cmn_to_eng</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word_embedding_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span><span class="s1">&#39;../models/bert-base-multilingual-cased/&#39;</span><span class="p">)</span>
+<span class="c1"># Apply mean pooling to get one fixed sized sentence vector</span>
+<span class="n">pooling_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Pooling</span><span class="p">(</span><span class="n">word_embedding_model</span><span class="o">.</span><span class="n">get_word_embedding_dimension</span><span class="p">(),</span>
+                               <span class="n">pooling_mode_mean_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">pooling_mode_cls_token</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">pooling_mode_max_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="n">modules</span><span class="o">=</span><span class="p">[</span><span class="n">word_embedding_model</span><span class="p">,</span> <span class="n">pooling_model</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">+=</span> <span class="n">evaluate_language_pair</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pair_name</span><span class="o">=</span><span class="n">pair</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">df_baseline_max</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">,</span> <span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_baseline_max</span>
 </pre></div>
 
     </div>
@@ -16947,17 +17257,714 @@ Wall time: 3.32 s
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[95]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>510</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>from</th>
+      <th>to</th>
+      <th>correct</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>ita</td>
+      <td>eng</td>
+      <td>295</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>eng</td>
+      <td>ita</td>
+      <td>373</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>spa</td>
+      <td>eng</td>
+      <td>320</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>eng</td>
+      <td>spa</td>
+      <td>427</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>fra</td>
+      <td>eng</td>
+      <td>200</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>eng</td>
+      <td>fra</td>
+      <td>335</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>deu</td>
+      <td>eng</td>
+      <td>193</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>eng</td>
+      <td>deu</td>
+      <td>363</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>rus</td>
+      <td>eng</td>
+      <td>216</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>eng</td>
+      <td>rus</td>
+      <td>320</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>jpn</td>
+      <td>eng</td>
+      <td>69</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>eng</td>
+      <td>jpn</td>
+      <td>198</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>cmn</td>
+      <td>eng</td>
+      <td>290</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>eng</td>
+      <td>cmn</td>
+      <td>365</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>hin</td>
+      <td>eng</td>
+      <td>14</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>eng</td>
+      <td>hin</td>
+      <td>76</td>
+      <td>1000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Comparison">Comparison<a class="anchor-link" href="#Comparison">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_baseline_mean</span><span class="p">[</span><span class="s2">&quot;err_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">df_baseline_mean</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_baseline_mean</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span>
+<span class="n">df_baseline_max</span><span class="p">[</span><span class="s2">&quot;err_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">df_baseline_max</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_baseline_max</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span>
+<span class="n">df_baseline_cls</span><span class="p">[</span><span class="s2">&quot;err_cls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">df_baseline_cls</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_baseline_cls</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span>
+<span class="n">df_finetuned</span><span class="p">[</span><span class="s2">&quot;err_finetuned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">df_finetuned</span><span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_finetuned</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_err</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">(</span><span class="n">df_baseline_mean</span><span class="p">,</span> <span class="n">df_baseline_max</span><span class="p">,</span> <span class="n">df_baseline_cls</span><span class="p">,</span> <span class="n">df_finetuned</span><span class="p">)</span>
+<span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_err</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[17]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>err_mean</th>
+      <th>err_max</th>
+      <th>err_cls</th>
+      <th>err_finetuned</th>
+    </tr>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ita</td>
+      <td>eng</td>
+      <td>0.500</td>
+      <td>0.705</td>
+      <td>0.879</td>
+      <td>0.502</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>ita</td>
+      <td>0.617</td>
+      <td>0.627</td>
+      <td>0.776</td>
+      <td>0.484</td>
+    </tr>
+    <tr>
+      <td>spa</td>
+      <td>eng</td>
+      <td>0.479</td>
+      <td>0.680</td>
+      <td>0.891</td>
+      <td>0.468</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>spa</td>
+      <td>0.523</td>
+      <td>0.573</td>
+      <td>0.709</td>
+      <td>0.446</td>
+    </tr>
+    <tr>
+      <td>fra</td>
+      <td>eng</td>
+      <td>0.518</td>
+      <td>0.800</td>
+      <td>0.831</td>
+      <td>0.489</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>fra</td>
+      <td>0.615</td>
+      <td>0.665</td>
+      <td>0.770</td>
+      <td>0.492</td>
+    </tr>
+    <tr>
+      <td>deu</td>
+      <td>eng</td>
+      <td>0.512</td>
+      <td>0.807</td>
+      <td>0.885</td>
+      <td>0.487</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>deu</td>
+      <td>0.522</td>
+      <td>0.637</td>
+      <td>0.737</td>
+      <td>0.501</td>
+    </tr>
+    <tr>
+      <td>rus</td>
+      <td>eng</td>
+      <td>0.570</td>
+      <td>0.784</td>
+      <td>0.835</td>
+      <td>0.502</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>rus</td>
+      <td>0.585</td>
+      <td>0.680</td>
+      <td>0.787</td>
+      <td>0.512</td>
+    </tr>
+    <tr>
+      <td>jpn</td>
+      <td>eng</td>
+      <td>0.732</td>
+      <td>0.931</td>
+      <td>0.915</td>
+      <td>0.622</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>jpn</td>
+      <td>0.710</td>
+      <td>0.802</td>
+      <td>0.860</td>
+      <td>0.631</td>
+    </tr>
+    <tr>
+      <td>cmn</td>
+      <td>eng</td>
+      <td>0.490</td>
+      <td>0.710</td>
+      <td>0.916</td>
+      <td>0.356</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>cmn</td>
+      <td>0.478</td>
+      <td>0.635</td>
+      <td>0.718</td>
+      <td>0.403</td>
+    </tr>
+    <tr>
+      <td>hin</td>
+      <td>eng</td>
+      <td>0.916</td>
+      <td>0.986</td>
+      <td>0.992</td>
+      <td>0.905</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>hin</td>
+      <td>0.887</td>
+      <td>0.924</td>
+      <td>0.949</td>
+      <td>0.874</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_finetuned&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_mean&quot;</span><span class="p">]</span>
+<span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_pct_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_mean&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_mean&quot;</span><span class="p">]</span>
+<span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_finetuned&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_max&quot;</span><span class="p">]</span>
+<span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_pct_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_max&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_max&quot;</span><span class="p">]</span>
+<span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_cls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_finetuned&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_cls&quot;</span><span class="p">]</span>
+<span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_pct_cls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;diff_cls&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_err</span><span class="p">[</span><span class="s2">&quot;err_cls&quot;</span><span class="p">]</span>
+<span class="n">df_err</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>err_mean</th>
+      <th>err_max</th>
+      <th>err_cls</th>
+      <th>err_finetuned</th>
+      <th>diff_mean</th>
+      <th>diff_max</th>
+      <th>diff_cls</th>
+      <th>diff_pct_mean</th>
+      <th>diff_pct_max</th>
+      <th>diff_pct_cls</th>
+    </tr>
+    <tr>
+      <th>from</th>
+      <th>to</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ita</td>
+      <td>eng</td>
+      <td>0.500</td>
+      <td>0.705</td>
+      <td>0.879</td>
+      <td>0.502</td>
+      <td>0.002</td>
+      <td>-0.203</td>
+      <td>-0.377</td>
+      <td>0.004000</td>
+      <td>-0.287943</td>
+      <td>-0.428896</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>ita</td>
+      <td>0.617</td>
+      <td>0.627</td>
+      <td>0.776</td>
+      <td>0.484</td>
+      <td>-0.133</td>
+      <td>-0.143</td>
+      <td>-0.292</td>
+      <td>-0.215559</td>
+      <td>-0.228070</td>
+      <td>-0.376289</td>
+    </tr>
+    <tr>
+      <td>spa</td>
+      <td>eng</td>
+      <td>0.479</td>
+      <td>0.680</td>
+      <td>0.891</td>
+      <td>0.468</td>
+      <td>-0.011</td>
+      <td>-0.212</td>
+      <td>-0.423</td>
+      <td>-0.022965</td>
+      <td>-0.311765</td>
+      <td>-0.474747</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>spa</td>
+      <td>0.523</td>
+      <td>0.573</td>
+      <td>0.709</td>
+      <td>0.446</td>
+      <td>-0.077</td>
+      <td>-0.127</td>
+      <td>-0.263</td>
+      <td>-0.147228</td>
+      <td>-0.221640</td>
+      <td>-0.370945</td>
+    </tr>
+    <tr>
+      <td>fra</td>
+      <td>eng</td>
+      <td>0.518</td>
+      <td>0.800</td>
+      <td>0.831</td>
+      <td>0.489</td>
+      <td>-0.029</td>
+      <td>-0.311</td>
+      <td>-0.342</td>
+      <td>-0.055985</td>
+      <td>-0.388750</td>
+      <td>-0.411552</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>fra</td>
+      <td>0.615</td>
+      <td>0.665</td>
+      <td>0.770</td>
+      <td>0.492</td>
+      <td>-0.123</td>
+      <td>-0.173</td>
+      <td>-0.278</td>
+      <td>-0.200000</td>
+      <td>-0.260150</td>
+      <td>-0.361039</td>
+    </tr>
+    <tr>
+      <td>deu</td>
+      <td>eng</td>
+      <td>0.512</td>
+      <td>0.807</td>
+      <td>0.885</td>
+      <td>0.487</td>
+      <td>-0.025</td>
+      <td>-0.320</td>
+      <td>-0.398</td>
+      <td>-0.048828</td>
+      <td>-0.396530</td>
+      <td>-0.449718</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>deu</td>
+      <td>0.522</td>
+      <td>0.637</td>
+      <td>0.737</td>
+      <td>0.501</td>
+      <td>-0.021</td>
+      <td>-0.136</td>
+      <td>-0.236</td>
+      <td>-0.040230</td>
+      <td>-0.213501</td>
+      <td>-0.320217</td>
+    </tr>
+    <tr>
+      <td>rus</td>
+      <td>eng</td>
+      <td>0.570</td>
+      <td>0.784</td>
+      <td>0.835</td>
+      <td>0.502</td>
+      <td>-0.068</td>
+      <td>-0.282</td>
+      <td>-0.333</td>
+      <td>-0.119298</td>
+      <td>-0.359694</td>
+      <td>-0.398802</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>rus</td>
+      <td>0.585</td>
+      <td>0.680</td>
+      <td>0.787</td>
+      <td>0.512</td>
+      <td>-0.073</td>
+      <td>-0.168</td>
+      <td>-0.275</td>
+      <td>-0.124786</td>
+      <td>-0.247059</td>
+      <td>-0.349428</td>
+    </tr>
+    <tr>
+      <td>jpn</td>
+      <td>eng</td>
+      <td>0.732</td>
+      <td>0.931</td>
+      <td>0.915</td>
+      <td>0.622</td>
+      <td>-0.110</td>
+      <td>-0.309</td>
+      <td>-0.293</td>
+      <td>-0.150273</td>
+      <td>-0.331901</td>
+      <td>-0.320219</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>jpn</td>
+      <td>0.710</td>
+      <td>0.802</td>
+      <td>0.860</td>
+      <td>0.631</td>
+      <td>-0.079</td>
+      <td>-0.171</td>
+      <td>-0.229</td>
+      <td>-0.111268</td>
+      <td>-0.213217</td>
+      <td>-0.266279</td>
+    </tr>
+    <tr>
+      <td>cmn</td>
+      <td>eng</td>
+      <td>0.490</td>
+      <td>0.710</td>
+      <td>0.916</td>
+      <td>0.356</td>
+      <td>-0.134</td>
+      <td>-0.354</td>
+      <td>-0.560</td>
+      <td>-0.273469</td>
+      <td>-0.498592</td>
+      <td>-0.611354</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>cmn</td>
+      <td>0.478</td>
+      <td>0.635</td>
+      <td>0.718</td>
+      <td>0.403</td>
+      <td>-0.075</td>
+      <td>-0.232</td>
+      <td>-0.315</td>
+      <td>-0.156904</td>
+      <td>-0.365354</td>
+      <td>-0.438719</td>
+    </tr>
+    <tr>
+      <td>hin</td>
+      <td>eng</td>
+      <td>0.916</td>
+      <td>0.986</td>
+      <td>0.992</td>
+      <td>0.905</td>
+      <td>-0.011</td>
+      <td>-0.081</td>
+      <td>-0.087</td>
+      <td>-0.012009</td>
+      <td>-0.082150</td>
+      <td>-0.087702</td>
+    </tr>
+    <tr>
+      <td>eng</td>
+      <td>hin</td>
+      <td>0.887</td>
+      <td>0.924</td>
+      <td>0.949</td>
+      <td>0.874</td>
+      <td>-0.013</td>
+      <td>-0.050</td>
+      <td>-0.075</td>
+      <td>-0.014656</td>
+      <td>-0.054113</td>
+      <td>-0.079031</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_err</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;df_err.csv&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

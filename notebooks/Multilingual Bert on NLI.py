@@ -12,6 +12,7 @@ STS benchmark dataset
 import math
 import logging
 from datetime import datetime
+from pathlib import Path
 
 from torch.utils.data import DataLoader
 import torch
@@ -19,11 +20,16 @@ import torch.nn as nn
 import joblib
 import faiss
 import numpy as np
+import pandas as pd
 from sentence_transformers import models, losses
 from sentence_transformers import SentencesDataset, LoggingHandler, SentenceTransformer
 from sentence_transformers.evaluation import EmbeddingSimilarityEvaluator
 from sentence_transformers.readers import *
 from sentence_transformers.util import batch_to_device
+from sentence_transformers.readers.InputExample import InputExample
+
+
+# In[2]:
 
 
 #### Just some code to print debug information to stdout
@@ -186,14 +192,7 @@ model.evaluate(evaluator)
 
 # ## Tatoeba
 
-# In[15]:
-
-
-from pathlib import Path
-from sentence_transformers.readers.InputExample import InputExample
-
-
-# In[26]:
+# In[2]:
 
 
 class TatoebaReader:
@@ -209,66 +208,95 @@ class TatoebaReader:
                 examples.append(InputExample(guid=i, texts=[line], label=0))                
         return examples
 
-
-# In[33]:
-
-
 TATOEBA_PATH = Path("../data/tatoeba/v1/")
 
-tatoeba_engcmn_eng = TatoebaReader(TATOEBA_PATH / "tatoeba.cmn-eng.eng")
-ds = SentencesDataset(tatoeba_engchm_eng.get_examples(), model=model)
-tatoeba_engcmn_eng_loader = DataLoader(ds, shuffle=False, batch_size=32, collate_fn=model.smart_batching_collate)
 
-tatoeba_engcmn_cmn = TatoebaReader(TATOEBA_PATH / "tatoeba.cmn-eng.cmn")
-ds = SentencesDataset(tatoeba_engcmn_cmn.get_examples(), model=model)
-tatoeba_engcmn_cmn_loader = DataLoader(ds, shuffle=False, batch_size=32, collate_fn=model.smart_batching_collate)
+# In[3]:
 
 
-# In[75]:
+def evaluate_language_pair(model, pair_name="cmn-eng", batch_size=32):
+    lang_1, lang_2 = pair_name.split("-")
+    reader_1 = TatoebaReader(TATOEBA_PATH / f"tatoeba.{pair_name}.{lang_1}")
+    ds_1 = SentencesDataset(reader_1.get_examples(), model=model)
+    loader_1 = DataLoader(
+        ds_1, shuffle=False, batch_size=batch_size, 
+        collate_fn=model.smart_batching_collate)
+
+    reader_2 = TatoebaReader(TATOEBA_PATH / f"tatoeba.{pair_name}.{lang_2}")
+    ds_2 = SentencesDataset(reader_2.get_examples(), model=model)
+    loader_2 = DataLoader(
+        ds_2, shuffle=False, batch_size=batch_size, 
+        collate_fn=model.smart_batching_collate)
+    
+    model.eval()
+    emb_1, emb_2 = [], []
+    with torch.no_grad():
+        for batch in loader_1:
+            emb_1.append(model(
+                batch_to_device(batch, "cuda")[0][0]
+            )['sentence_embedding'])
+        for batch in loader_2:
+            emb_2.append(model(
+                batch_to_device(batch, "cuda")[0][0]
+            )['sentence_embedding'])
+    emb_1 = torch.cat(emb_1).cpu().numpy()
+    emb_2 = torch.cat(emb_2).cpu().numpy()
+    
+    idx_1 = faiss.IndexFlatL2(emb_1.shape[1])
+    faiss.normalize_L2(emb_1)
+    idx_1.add(emb_1)
+    idx_2 = faiss.IndexFlatL2(emb_2.shape[1])
+    faiss.normalize_L2(emb_2)
+    idx_2.add(emb_2)
+    
+    results = []
+    _, match = idx_2.search(x=emb_1, k=1)
+    results.append((
+        lang_1, lang_2,
+        np.sum(match[:, 0] == np.arange(len(emb_1))),
+        len(emb_1)
+    ))
+    _, match = idx_1.search(x=emb_2, k=1)
+    results.append((
+        lang_2, lang_1,
+        np.sum(match[:, 0] == np.arange(len(emb_2))),
+        len(emb_2)
+    ))
+    return results
 
 
-get_ipython().run_cell_magic('time', '', 'cmn_embeddings, eng_embeddings = [], []\nwith torch.no_grad():\n    for batch in tatoeba_engcmn_cmn_loader:\n        cmn_embeddings.append(model(\n            batch_to_device(batch, "cuda")[0][0]\n        )[\'sentence_embedding\'])\n    for batch in tatoeba_engcmn_eng_loader:\n        eng_embeddings.append(model(\n            batch_to_device(batch, "cuda")[0][0]\n        )[\'sentence_embedding\'])\ncmn_embeddings = torch.cat(cmn_embeddings).cpu().numpy()\neng_embeddings = torch.cat(eng_embeddings).cpu().numpy()')
+# In[4]:
 
 
-# In[76]:
+PAIRS = ["ita-eng", "spa-eng", "fra-eng", "deu-eng", "rus-eng", "jpn-eng", "cmn-eng", "hin-eng"]
 
 
-len(eng_embeddings)
+# ### Fine-tuned
+
+# In[5]:
 
 
-# In[79]:
+model = SentenceTransformer('output/training_nli_bert-2019-09-22_21-50-05')
 
 
-cmn_idx = faiss.IndexFlatL2(cmn_embeddings.shape[1])
-faiss.normalize_L2(cmn_embeddings)
-cmn_idx.add(cmn_embeddings)
-eng_idx = faiss.IndexFlatL2(eng_embeddings.shape[1])
-faiss.normalize_L2(eng_embeddings)
-eng_idx.add(eng_embeddings)
+# In[6]:
 
 
-# In[82]:
+results = []
+for pair in PAIRS:
+    results += evaluate_language_pair(model, pair_name=pair, batch_size=50)
+df_finetuned = pd.DataFrame(results, columns=["from", "to", "correct", "total"])
 
 
-_, eng_to_cmn = cmn_idx.search(x=eng_embeddings, k=1)
-_, cmn_to_eng = eng_idx.search(x=cmn_embeddings, k=1)
+# In[7]:
 
 
-# In[88]:
-
-
-np.sum(eng_to_cmn[:, 0] == np.arange(1000))
-
-
-# In[89]:
-
-
-np.sum(cmn_to_eng[:, 0] == np.arange(1000))
+df_finetuned
 
 
 # ## Baseline
 
-# In[91]:
+# In[8]:
 
 
 word_embedding_model = models.BERT('../models/bert-base-multilingual-cased/')
@@ -280,33 +308,111 @@ pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension
 model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 
 
-# In[92]:
+# In[9]:
 
 
-get_ipython().run_cell_magic('time', '', 'cmn_embeddings, eng_embeddings = [], []\nwith torch.no_grad():\n    for batch in tatoeba_engcmn_cmn_loader:\n        cmn_embeddings.append(model(\n            batch_to_device(batch, "cuda")[0][0]\n        )[\'sentence_embedding\'])\n    for batch in tatoeba_engcmn_eng_loader:\n        eng_embeddings.append(model(\n            batch_to_device(batch, "cuda")[0][0]\n        )[\'sentence_embedding\'])\ncmn_embeddings = torch.cat(cmn_embeddings).cpu().numpy()\neng_embeddings = torch.cat(eng_embeddings).cpu().numpy()')
+results = []
+for pair in PAIRS:
+    results += evaluate_language_pair(model, pair_name=pair, batch_size=50)
+df_baseline_mean = pd.DataFrame(results, columns=["from", "to", "correct", "total"])
+df_baseline_mean
 
 
-# In[93]:
+# In[10]:
 
 
-cmn_idx = faiss.IndexFlatL2(cmn_embeddings.shape[1])
-faiss.normalize_L2(cmn_embeddings)
-cmn_idx.add(cmn_embeddings)
-eng_idx = faiss.IndexFlatL2(eng_embeddings.shape[1])
-faiss.normalize_L2(eng_embeddings)
-eng_idx.add(eng_embeddings)
-_, eng_to_cmn = cmn_idx.search(x=eng_embeddings, k=1)
-_, cmn_to_eng = eng_idx.search(x=cmn_embeddings, k=1)
+word_embedding_model = models.BERT('../models/bert-base-multilingual-cased/')
+# Apply mean pooling to get one fixed sized sentence vector
+pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension(),
+                               pooling_mode_mean_tokens=False,
+                               pooling_mode_cls_token=True,
+                               pooling_mode_max_tokens=False)
+model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 
 
-# In[94]:
+# In[11]:
 
 
-np.sum(eng_to_cmn[:, 0] == np.arange(1000))
+results = []
+for pair in PAIRS:
+    results += evaluate_language_pair(model, pair_name=pair, batch_size=50)
+df_baseline_cls = pd.DataFrame(results, columns=["from", "to", "correct", "total"])
 
 
-# In[95]:
+# In[12]:
 
 
-np.sum(cmn_to_eng[:, 0] == np.arange(1000))
+df_baseline_cls
+
+
+# In[13]:
+
+
+word_embedding_model = models.BERT('../models/bert-base-multilingual-cased/')
+# Apply mean pooling to get one fixed sized sentence vector
+pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension(),
+                               pooling_mode_mean_tokens=False,
+                               pooling_mode_cls_token=False,
+                               pooling_mode_max_tokens=True)
+model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
+
+
+# In[14]:
+
+
+results = []
+for pair in PAIRS:
+    results += evaluate_language_pair(model, pair_name=pair, batch_size=50)
+df_baseline_max = pd.DataFrame(results, columns=["from", "to", "correct", "total"])
+
+
+# In[15]:
+
+
+df_baseline_max
+
+
+# ### Comparison
+
+# In[16]:
+
+
+df_baseline_mean["err_mean"] = 1 - df_baseline_mean["correct"] / df_baseline_mean["total"]
+df_baseline_max["err_max"] = 1 - df_baseline_max["correct"] / df_baseline_max["total"]
+df_baseline_cls["err_cls"] = 1 - df_baseline_cls["correct"] / df_baseline_cls["total"]
+df_finetuned["err_finetuned"] = 1 - df_finetuned["correct"] / df_finetuned["total"]
+
+
+# In[17]:
+
+
+df_err = pd.concat([
+    df.set_index(["from", "to"]).drop(["correct", "total"], axis=1)
+    for df in (df_baseline_mean, df_baseline_max, df_baseline_cls, df_finetuned)
+], axis=1)
+df_err
+
+
+# In[19]:
+
+
+df_err["diff_mean"] = df_err["err_finetuned"] - df_err["err_mean"]
+df_err["diff_pct_mean"] = df_err["diff_mean"] / df_err["err_mean"]
+df_err["diff_max"] = df_err["err_finetuned"] - df_err["err_max"]
+df_err["diff_pct_max"] = df_err["diff_max"] / df_err["err_max"]
+df_err["diff_cls"] = df_err["err_finetuned"] - df_err["err_cls"]
+df_err["diff_pct_cls"] = df_err["diff_cls"] / df_err["err_cls"]
+df_err
+
+
+# In[20]:
+
+
+df_err.to_csv("df_err.csv")
+
+
+# In[ ]:
+
+
+
 
