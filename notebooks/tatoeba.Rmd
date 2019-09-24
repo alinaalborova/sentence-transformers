@@ -1,0 +1,96 @@
+---
+title: "Sentence-Transformer - Finetuned Multilingual BERT"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(data.table)
+library(gt)
+library(tidyverse)
+```
+
+
+```{r}
+dt.err <- fread("df_err.csv")
+dt.err[, rowname := paste(from, to, sep=" -> ")]
+dt.err[, c("from", "to") := NULL]
+dt.err <- dt.err[, .(
+  rowname, err_finetuned, err_mean, diff_mean, diff_pct_mean, err_max, diff_max, diff_pct_max,
+  err_cls, diff_cls, diff_pct_cls
+)]
+for(colname in c("err_finetuned", "err_mean", "err_max", "err_cls", "diff_max", "diff_mean", "diff_cls")){
+  dt.err[, eval(colname) := get(colname) * 100]
+}
+```
+
+```{r table, fig.height = 10, fig.width = 10, fig.align = "center"}
+gt_tbl <- gt(data = dt.err, rowname_col = "rowname")
+gt_tbl <- gt_tbl %>%
+  tab_stubhead("Language Pair") %>%
+  tab_header(
+    title = "Tatoeba Error Rates (%)"
+  ) %>%
+  tab_spanner(
+    label = "Finetuned",
+    columns = vars(err_finetuned)
+  ) %>%
+  tab_spanner(
+    label = "Mean Baseline",
+    columns = vars(err_mean, diff_mean, diff_pct_mean)
+  ) %>%
+  tab_spanner(
+    label = "MAX Baseline",
+    columns = vars(err_max, diff_max, diff_pct_max)
+  ) %>%
+  tab_spanner(
+    label = "CLS Baseline",
+    columns = vars(err_cls, diff_cls, diff_pct_cls)
+  ) %>%
+  fmt_number(
+    columns = vars(err_cls, diff_cls, err_max, diff_max, err_mean, diff_mean, err_finetuned),
+    decimal = 2
+  ) %>%
+  fmt_percent(
+    columns = vars(diff_pct_cls, diff_pct_max, diff_pct_mean),
+    decimals = 2,
+    drop_trailing_zeros = F
+  ) %>%
+  tab_source_note(
+    source_note = "Every language pair has 1,000 examples."
+  ) %>%
+  tab_source_note(
+    source_note = md("Dataset Source:  [facebookresearch/LASER](https://github.com/facebookresearch/LASER/tree/master/data/tatoeba/v1)")
+  ) %>%
+  cols_label(
+    err_finetuned = "Error",
+    err_cls = "Error",
+    err_mean = "Error",
+    err_max = "Error",
+    diff_cls = "Change",
+    diff_max = "Change",
+    diff_mean = "Change",
+    diff_pct_cls = "%",
+    diff_pct_max = "%",
+    diff_pct_mean = "%"
+  ) %>%
+  cols_align(
+    align = "center"
+  )   %>%
+  tab_style(
+    style = list(cell_text(weight="bolder", decorate="underline")),
+    locations = list(
+        cells_data(columns=c(4), rows=c(2)),
+        cells_data(columns=c(4), rows=c(13)),
+        cells_data(columns=c(4), rows=c(6)),
+        cells_data(columns=c(7), rows=c(13)),
+        cells_data(columns=c(10), rows=c(13))
+    ))
+```
+
+```{r}
+gtsave(gt_tbl, "test.html")
+```
